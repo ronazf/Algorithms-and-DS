@@ -1,4 +1,5 @@
 from typing import List
+import collections
 
 class Solution:
     def isValidSudoku(self, board: List[List[str]]) -> bool:
@@ -28,5 +29,24 @@ class Solution:
                         return False
                     else:
                         hashSet.add(curVal)
+      
+        return True
+    
+    def isValidSudokuOneGo(self, board: List[List[str]]) -> bool:
+        empty = "."
+        rowHashSet = collections.defaultdict(set)
+        colHashSet = collections.defaultdict(set)
+        squareHashSet = collections.defaultdict(set)
+        for i in range(9):
+            for j in range(9):
+                if board[i][j] == empty:
+                    continue
+
+                if board[i][j] in rowHashSet[i] or board[i][j] in colHashSet[j] or board[i][j] in squareHashSet[(i // 3, j // 3)]:
+                    return False
+                else:
+                    rowHashSet[i].add(board[i][j])
+                    colHashSet[j].add(board[i][j])
+                    squareHashSet[(i // 3, j // 3)].add(board[i][j])
       
         return True
